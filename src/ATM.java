@@ -19,8 +19,8 @@ public class ATM {
 		
 		ATM atm = new ATM();		
 		
-		System.out.print("Open Account: [1]\nLogin:        [2]\nExit:         [3]\n\nPlease choose an action: ");
-		int response = Integer.parseInt(atm.makeNumber(input.nextLine(), "0"));
+		System.out.print("Welcome to the Ever Rebodie ATM\n\nOpen Account: [1]\nLogin:        [2]\nExit:         [3]\n\nPlease choose an action: ");
+		int response = (int) Math.round(Double.parseDouble(atm.makeNumber(input.nextLine(), "0")));
 		System.out.print("\n");
 		
 		switch (response) {
@@ -62,7 +62,7 @@ public class ATM {
 				// Add to database
 				db.create(acntNum, pin, (double) 0, lastName, firstName, dob, phoneNum, address, city, state, postalCode);
 				
-				System.out.printf("\n\nYour Account information (May be trucated):\n\nNumber: %s\nPin: %d\nLast Name: %s\nFirst Name: %s\nDat of Birth: %d\nPhone: %d\nAddress: %s\nCity: %s\nState: %s\nPostal Code: %s\n\n\n\n", acntNum, pin, lastName, firstName, dob, phoneNum, address, city, state, postalCode);
+				System.out.printf("\n\nYour Account information (May be trucated):\n\nNumber: %s\nPin: %d\nLast Name: %s\nFirst Name: %s\nDat of Birth: %d\nPhone: %d\nAddress: %s\nCity: %s\nState: %s\nPostal Code: %s\n\n", acntNum, pin, lastName, firstName, dob, phoneNum, address, city, state, postalCode);
 				
 				// Wait for them
 				System.out.println("\nContinue: [ENTER]");
@@ -84,7 +84,7 @@ public class ATM {
 					
 					// check for bad inputs
 					tempAcntNum = atm.makeNumber(tempAcntNum, "0000");
-					if (db.retrieveNum("balance", (long) Integer.parseInt(String.valueOf(tempAcntNum))) == -1) {
+					if (db.retrieveNum("balance", (long) Math.round(Double.parseDouble(String.valueOf(tempAcntNum)))) == -1) {
 						System.out.println("This Account Number doesn't exist");
 						tempAcntNum = "Null";
 					}
@@ -95,7 +95,7 @@ public class ATM {
 				long tempPin = 0;
 				do {
 					System.out.print("\nAccount Pin: ");
-					tempPin = (long) Integer.parseInt(atm.makeNumber(input.nextLine(), "0"));
+					tempPin = (long) Math.round(Double.parseDouble(atm.makeNumber(input.nextLine(), "0")));
 					if (db.retrieveNum("pin", acntNum) != (double) tempPin) {
 						tempPin = 0;
 					}
@@ -106,7 +106,7 @@ public class ATM {
 					int open;
 					do {
 						System.out.print("Selection: ");
-						open = Integer.parseInt(atm.makeNumber(input.nextLine(), "0"));
+						open = (int) Math.round(Double.parseDouble(atm.makeNumber(input.nextLine(), "0")));
 					} while (open > 2 || open < 1);
 					if (open == 1) {
 						db.update(acntNum, "open", "Y");
@@ -146,7 +146,7 @@ public class ATM {
 		System.out.print("Welcome to the Inva Sterrs Bank. What would you like to do?\n\nDeposit funds:       [1]\nWithdraw funds:      [2]\nTransfer funds:      [3]\nView balance:        [4]\nView personal info:  [5]\nUpdate personal info:[6]\nClose account:       [7]\nLogout:              [8]");
 		do {
 			System.out.print("\n\nPlease choose an action: ");
-			response = Integer.parseInt(atm.makeNumber(input.nextLine(), "9"));
+			response = (int) Math.round(Double.parseDouble(atm.makeNumber(input.nextLine(), "9")));
 		} while (response > 8 || response < 1);
 		System.out.println("\n\n********************\n\n");
 
@@ -160,8 +160,8 @@ public class ATM {
 			case 3:
 				long recipient;
 				do {
-					System.out.println("Account Number of Recipient: ");
-					recipient = input.nextLong();
+					System.out.print("Account Number of Recipient: ");
+					recipient = (long) Math.round(Double.parseDouble(atm.makeNumber(input.nextLine(), "0")));
 				} while (Long.toString(recipient).length() != 9);
 				BA.transfer(acntNum, recipient);
 				break;
@@ -177,7 +177,7 @@ public class ATM {
 				System.out.print("\n\nPin:             [1]\nLast Name:       [2]\nFirst Name:      [3]\nDate of Birth:   [4]\nPhone Number:    [5]\nStreet Address:  [6]\nCity:            [7]\nState:           [8]\nPostal Code:     [9]");
 				do {
 					System.out.print("\n\nPlease choose a field to update: ");
-					choice = Integer.parseInt(atm.makeNumber(input.nextLine(), "0"));
+					choice = (int) Math.round(Double.parseDouble(atm.makeNumber(input.nextLine(), "0")));
 				} while (choice > 9 || choice < 1);
 				String field = "0";
 				String value = "0";
@@ -191,7 +191,7 @@ public class ATM {
 						while (wrongPin) {
 							do {
 								System.out.print("Old Pin: ");
-								oldPin = (long) Integer.parseInt(atm.makeNumber(input.nextLine(), "0"));
+								oldPin = (long) Math.round(Double.parseDouble(atm.makeNumber(input.nextLine(), "0")));
 							} while (Long.toString(oldPin).length() != 4);
 							if ((oldPin == db.retrieveNum("pin", acntNum))) {
 								wrongPin = false;
@@ -203,7 +203,7 @@ public class ATM {
 						// Set new Pin
 						do {
 							System.out.print("New Pin: ");
-							value = atm.makeNumber(input.nextLine(), "0");
+							value = String.valueOf((long) Math.round(Double.parseDouble(atm.makeNumber(input.nextLine(), "0"))));
 						} while (value.length() != 4);
 						break;
 					case 2:
@@ -263,7 +263,7 @@ public class ATM {
 				int close;
 				do {
 					System.out.print("Selection:");
-					close = Integer.parseInt(atm.makeNumber(input.nextLine(), "0"));
+					close = (int) Math.round(Double.parseDouble(atm.makeNumber(input.nextLine(), "0")));
 				} while (close > 2 || close < 1);
 				switch (close) {
 					case 1: 
@@ -284,9 +284,9 @@ public class ATM {
 				int logOut; 
 				do {
 					System.out.print("Selection: ");
-					logOut= Integer.parseInt(atm.makeNumber(input.nextLine(), "0"));
+					logOut= (int) Math.round(Double.parseDouble(atm.makeNumber(input.nextLine(), "0")));
 				} while (logOut > 2 || logOut < 1);
-				switch (logOut) {
+				switch (Math.round(logOut)) {
 					case 1: 
 						System.out.println("Logging out...\n\n********************\n\n");
 						return;
@@ -312,7 +312,7 @@ public class ATM {
 	// Simply takes in a string that is supposed to be a number and makes sure it doesn't cause an error
 	public String makeNumber(String input, String valIfWrong) {
 		for (int i = 0; i < input.length(); i++) {
-			input = (input.charAt(i) >= '0' && input.charAt(i) <= '9') ? input : valIfWrong;
+			input = (input.charAt(i) >= '0' && input.charAt(i) <= '9' || input.charAt(i) == '.') ? input : valIfWrong;
 		}
 		if (input.equals("")) {
 			input = valIfWrong;
